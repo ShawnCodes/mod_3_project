@@ -13,6 +13,8 @@ let cursors
 let player
 let pigeons
 
+//test code
+
 function preload () {
   // Load & Define our game assets
   game.load.image('city_background', 'assets/city_background.png')
