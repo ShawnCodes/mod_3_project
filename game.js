@@ -11,13 +11,16 @@ let bitcoins
 let cursors
 let player
 let pigeons
-
+let enemies
 function preload() {
   game.load.image('city_background', 'assets/city_background.png')
   game.load.image('ground', 'assets/platform.png')
   game.load.image('bitcoin', 'assets/bitcoin.png')
   game.load.spritesheet('pigeon', 'assets/pigeon.png', 32, 32)
   game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
+  game.load.spritesheet('enemy', 'assets/YeOldyNecroGuy.png', 32, 32)
+
+
 }
 
 function create() {
@@ -54,9 +57,11 @@ function create() {
 
   bitcoins = game.add.group()
   pigeons = game.add.group()
+  enemies = game.add.group()
 
   bitcoins.enableBody = true
   pigeons.enableBody = true
+  enemies.enableBody = true
 
   for (var i = 0; i < 12; i++) {
     let bitcoin = bitcoins.create(i * 70, 0, 'bitcoin')
@@ -70,6 +75,9 @@ function create() {
 
     pigeon.body.gravity.y = 1000
     pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
+  }
+  for(var i = 0; i < 10; i++){
+    let enemy = enemies.create(game.world.randomX, game.world.randomY, 'enemy')
   }
 
   scoreText = game.add.text(16, 16, '', {
