@@ -153,4 +153,3 @@ function collectPigeon (player, pigeon) {
   score -= 10
   scoreText.text = 'Score: ' + score
 }
-//That's a new comment!
