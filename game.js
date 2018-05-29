@@ -11,12 +11,14 @@ let platforms
 let bitcoins
 let cursors
 let player
+let pigeons
 
 function preload () {
   // Load & Define our game assets
-  game.load.image('shun_city', 'assets/shun_city.png')
+  game.load.image('city_background', 'assets/city_background.png')
   game.load.image('ground', 'assets/platform.png')
   game.load.image('bitcoin', 'assets/bitcoin.png')
+  game.load.spritesheet('pigeon', 'assets/pigeon.png', 32, 32)
   game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
 }
 
@@ -25,7 +27,7 @@ function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  A simple background for our game
-  game.add.sprite(0, 0, 'shun_city')
+  game.add.sprite(0, 0, 'city_background')
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
   platforms = game.add.group()
@@ -64,11 +66,13 @@ function create () {
   player.animations.add('left', [0, 1], 10, true)
   player.animations.add('right', [2, 3], 10, true)
 
-    //  Finally some bitcoins to collect
+    //  Finally some bitcoins to collect & pigeons to avoid
   bitcoins = game.add.group()
+  pigeons = game.add.group()
 
     //  Enable physics for any object that is created in this group
   bitcoins.enableBody = true
+  pigeons.enableBody = true
 
     //  Create 12 bitcoins evenly spaced apart
   for (var i = 0; i < 12; i++) {
@@ -77,6 +81,14 @@ function create () {
       //  Drop em from the sky and bounce a bit
     bitcoin.body.gravity.y = 1000
     bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
+  }
+
+  for (var i = 0; i < 15; i++) {
+    let pigeon = pigeons.create(i * 50, 0, 'pigeon')
+
+      //  Drop em from the sky and bounce a bit
+    pigeon.body.gravity.y = 1000
+    pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
     //  Create the score text
@@ -93,9 +105,11 @@ function update () {
     //  Setup collisions for the player, bitcoins, and our platforms
   game.physics.arcade.collide(player, platforms)
   game.physics.arcade.collide(bitcoins, platforms)
+  game.physics.arcade.collide(pigeons, platforms)
 
     //  Call callectionBitcoin() if player overlaps with a bitcoin
   game.physics.arcade.overlap(player, bitcoins, collectBitcoin, null, this)
+  game.physics.arcade.overlap(player, pigeons, collectPigeon, null, this)
 
     // Configure the controls!
   if (cursors.left.isDown) {
@@ -113,7 +127,7 @@ function update () {
 
     //  This allows the player to jump!
   if (cursors.up.isDown && player.body.touching.down) {
-    player.body.velocity.y = -550
+    player.body.velocity.y = -1550
   }
     // Show an alert modal when score reaches 120
   if (score === 120) {
@@ -128,5 +142,14 @@ function collectBitcoin (player, bitcoin) {
 
     //  And update the score
   score += 10
+  scoreText.text = 'Score: ' + score
+}
+
+function collectPigeon (player, pigeon) {
+    // Removes the bitcoin from the screen
+  pigeon.kill()
+
+    //  And update the score
+  score -= 10
   scoreText.text = 'Score: ' + score
 }
