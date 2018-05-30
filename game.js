@@ -1,9 +1,3 @@
-const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-  preload: preload,
-  create: create,
-  update: update
-})
-
 let score = 0
 let scoreText
 let platforms
@@ -11,6 +5,16 @@ let bitcoins
 let cursors
 let player
 let enemy
+let enemies
+
+
+const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+  preload: preload,
+  create: create,
+  update: update
+})
+
+
 
 function preload() {
   game.load.image('city_background', 'assets/city_background.png')
@@ -41,11 +45,15 @@ function create() {
   let ledge = platforms.create(400, 450, 'ground')
   ledge.body.immovable = true
 
-  ledge = platforms.create(-75, 350, 'ground')
+
+  let x1= -75
+  let y1= 350
+  ledge = platforms.create(x1, y1, 'ground')
   ledge.body.immovable = true
 
-  player = game.add.sprite(750, game.world.height - 250, 'woof')
-  enemy = game.add.sprite(50, game.world.height - 250, 'enemy')
+  player = game.add.sprite(50, game.world.height - 250, 'woof')
+  enemy = game.add.sprite(750, game.world.height - 250, 'enemy')
+  enemie = game.add.sprite(x1, y1, 'enemy')
 
   game.physics.arcade.enable(player)
   game.physics.arcade.enable(enemy)
@@ -61,14 +69,15 @@ function create() {
   player.animations.add('left', [0, 1], 10, true)
   player.animations.add('right', [2, 3], 10, true)
   enemy.animations.add('left', [10, 11, 12], 10, true)
-  enemy.animations.add('right', [3, 4, 5], 10, true)
+  enemy.animations.add('right', [3, 4, 5], 15, true)
 
 
   bitcoins = game.add.group()
-  // pigeons = game.add.group()
+  enemies = game.add.group()
 
   bitcoins.enableBody = true
   enemy.enableBody = true
+  enemies.enableBody = true
 
   for (var i = 0; i < 12; i++) {
     let bitcoin = bitcoins.create(i * 70, 0, 'bitcoin')
@@ -77,12 +86,12 @@ function create() {
     bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
-  // for (var i = 0; i < 15; i++) {
-  //   let pigeon = pigeons.create(i * 50, 0, 'pigeon')
-  //
-  //   pigeon.body.gravity.y = 1000
-  //   pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
-  // }
+  for (var i = 0; i < 3; i++) {
+    let en1 = enemies.create(i * 50, 0, 'enemy')
+
+    en1.body.gravity.y = 1000
+    en1.body.bounce.y = 0.3 + Math.random() * 0.2
+  }
 
   scoreText = game.add.text(16, 16, '', {
     fontSize: '32px',
@@ -95,11 +104,12 @@ function create() {
 
 function update() {
   player.body.velocity.x = 0
-  enemy.body.velocity.x = 0
+  enemy.body.velocity.x = -50
 
   game.physics.arcade.collide(player, platforms)
   game.physics.arcade.collide(bitcoins, platforms)
   game.physics.arcade.collide(enemy, platforms)
+  game.physics.arcade.collide(enemies, platforms)
 
   game.physics.arcade.overlap(player, bitcoins, collectBitcoin, null, this)
   game.physics.arcade.overlap(player, enemy, collectPigeon, null, this)
@@ -123,8 +133,8 @@ function update() {
     alert('You collected all of the bitcoin!')
     score = 0
   }
-  if (score > 10) {
-    enemy.animations.play('right')
+  if (score >= 0) {
+    enemy.animations.play('left')
   }
 }
 
@@ -138,8 +148,8 @@ function collectBitcoin(player, bitcoin) {
 }
 
 function collectPigeon(player, enemy) {
-  enemy.kill()
-
+   player.kill()
+   alert('You suck')
   score -= 10
   scoreText.text = 'Score: ' + score
 }
