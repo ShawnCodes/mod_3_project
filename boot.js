@@ -1,4 +1,5 @@
-let RatRace = RatRace || {};
+//creating a new instance of the game and setting up the canvas size
+let RatRace = new Phaser.Game(800, 600)
 
 RatRace.Boot = function(){};
 
@@ -6,8 +7,8 @@ RatRace.Boot = function(){};
 RatRace.Boot.prototype = {
   preload: function() {
   	//assets we'll use in the loading screen
-    this.load.image('logo', 'assets/images/logo.png');
-    this.load.image('preloadbar', 'assets/images/preloader-bar.png');
+    this.load.image('logo', 'assets/bitcoin.png');
+    // this.load.image('preloadbar', 'assets/images/preloader-bar.png');
   },
   create: function() {
   	//loading screen will have a white background
