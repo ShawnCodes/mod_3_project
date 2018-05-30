@@ -10,13 +10,18 @@ let platforms
 let bitcoins
 let cursors
 let player
+<<<<<<< HEAD
 let pigeons
 let enemies
+=======
+let enemy
+
+>>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 function preload() {
   game.load.image('city_background', 'assets/city_background.png')
   game.load.image('ground', 'assets/platform.png')
   game.load.image('bitcoin', 'assets/bitcoin.png')
-  game.load.spritesheet('pigeon', 'assets/pigeon.png', 32, 32)
+  game.load.spritesheet('enemy', 'assets/pigeon.png', 32, 32)
   game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
   game.load.spritesheet('enemy', 'assets/YeOldyNecroGuy.png', 32, 32)
 
@@ -44,24 +49,40 @@ function create() {
   ledge = platforms.create(-75, 350, 'ground')
   ledge.body.immovable = true
 
-  player = game.add.sprite(32, game.world.height - 150, 'woof')
+  player = game.add.sprite(750, game.world.height - 250, 'woof')
+  enemy = game.add.sprite(50, game.world.height - 250, 'enemy')
 
   game.physics.arcade.enable(player)
+  game.physics.arcade.enable(enemy)
 
   player.body.bounce.y = 0.5
   player.body.gravity.y = 800
   player.body.collideWorldBounds = true
 
+  enemy.body.bounce.y = 0.5
+  enemy.body.gravity.y = 800
+  enemy.body.collideWorldBounds = true
+
   player.animations.add('left', [0, 1], 10, true)
   player.animations.add('right', [2, 3], 10, true)
+  enemy.animations.add('left', [10, 11, 12], 10, true)
+  enemy.animations.add('right', [3, 4, 5], 10, true)
+
 
   bitcoins = game.add.group()
+<<<<<<< HEAD
   pigeons = game.add.group()
   enemies = game.add.group()
 
   bitcoins.enableBody = true
   pigeons.enableBody = true
   enemies.enableBody = true
+=======
+  // pigeons = game.add.group()
+
+  bitcoins.enableBody = true
+  enemy.enableBody = true
+>>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 
   for (var i = 0; i < 12; i++) {
     let bitcoin = bitcoins.create(i * 70, 0, 'bitcoin')
@@ -70,6 +91,7 @@ function create() {
     bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
+<<<<<<< HEAD
   for (var i = 0; i < 15; i++) {
     let pigeon = pigeons.create(i * 50, 0, 'pigeon')
 
@@ -79,6 +101,14 @@ function create() {
   for(var i = 0; i < 1; i++){
     let enemy = enemies.create(game.world.randomX, game.world.randomY, 'enemy')
   }
+=======
+  // for (var i = 0; i < 15; i++) {
+  //   let pigeon = pigeons.create(i * 50, 0, 'pigeon')
+  //
+  //   pigeon.body.gravity.y = 1000
+  //   pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
+  // }
+>>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 
   scoreText = game.add.text(16, 16, '', {
     fontSize: '32px',
@@ -88,15 +118,17 @@ function create() {
   cursors = game.input.keyboard.createCursorKeys()
 }
 
+
 function update() {
   player.body.velocity.x = 0
+  enemy.body.velocity.x = 0
 
   game.physics.arcade.collide(player, platforms)
   game.physics.arcade.collide(bitcoins, platforms)
-  game.physics.arcade.collide(pigeons, platforms)
+  game.physics.arcade.collide(enemy, platforms)
 
   game.physics.arcade.overlap(player, bitcoins, collectBitcoin, null, this)
-  game.physics.arcade.overlap(player, pigeons, collectPigeon, null, this)
+  game.physics.arcade.overlap(player, enemy, collectPigeon, null, this)
 
   if (cursors.left.isDown) {
     player.body.velocity.x = -150
@@ -117,7 +149,12 @@ function update() {
     alert('You collected all of the bitcoin!')
     score = 0
   }
+  if (score > 10) {
+    enemy.animations.play('right')
+  }
 }
+
+
 
 function collectBitcoin(player, bitcoin) {
   bitcoin.kill()
@@ -126,8 +163,8 @@ function collectBitcoin(player, bitcoin) {
   scoreText.text = 'Score: ' + score
 }
 
-function collectPigeon(player, pigeon) {
-  pigeon.kill()
+function collectPigeon(player, enemy) {
+  enemy.kill()
 
   score -= 10
   scoreText.text = 'Score: ' + score
