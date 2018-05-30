@@ -10,13 +10,8 @@ let platforms
 let bitcoins
 let cursors
 let player
-<<<<<<< HEAD
-let pigeons
-let enemies
-=======
 let enemy
 
->>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 function preload() {
   game.load.image('city_background', 'assets/city_background.png')
   game.load.image('ground', 'assets/platform.png')
@@ -70,19 +65,10 @@ function create() {
 
 
   bitcoins = game.add.group()
-<<<<<<< HEAD
-  pigeons = game.add.group()
-  enemies = game.add.group()
-
-  bitcoins.enableBody = true
-  pigeons.enableBody = true
-  enemies.enableBody = true
-=======
   // pigeons = game.add.group()
 
   bitcoins.enableBody = true
   enemy.enableBody = true
->>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 
   for (var i = 0; i < 12; i++) {
     let bitcoin = bitcoins.create(i * 70, 0, 'bitcoin')
@@ -91,24 +77,12 @@ function create() {
     bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
-<<<<<<< HEAD
-  for (var i = 0; i < 15; i++) {
-    let pigeon = pigeons.create(i * 50, 0, 'pigeon')
-
-    pigeon.body.gravity.y = 1000
-    pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
-  }
-  for(var i = 0; i < 1; i++){
-    let enemy = enemies.create(game.world.randomX, game.world.randomY, 'enemy')
-  }
-=======
   // for (var i = 0; i < 15; i++) {
   //   let pigeon = pigeons.create(i * 50, 0, 'pigeon')
   //
   //   pigeon.body.gravity.y = 1000
   //   pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
   // }
->>>>>>> 11bcf6c0efa1f29ba9d6b5fef14b3075d66d0538
 
   scoreText = game.add.text(16, 16, '', {
     fontSize: '32px',

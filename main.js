@@ -1,11 +1,10 @@
-let RatRace = RatRace || {};
+let RatRace = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '');
 
-RatRace.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '');
-
-RatRace.game.state.add('Boot', RatRace.Boot);
+RatRace.state.add('Boot', RatRace.Boot);
 //uncomment these as we create them through the tutorial
-//RatRace.game.state.add('Preload', RatRace.Preload);
-//RatRace.game.state.add('MainMenu', RatRace.MainMenu);
-//RatRace.game.state.add('Game', RatRace.Game);
+// RatRace.state.add('Preload', RatRace.Preload);
+// RatRace.state.add('MainMenu', RatRace.MainMenu);
+RatRace.state.add('Game', RatRace.Game);
 
-RatRace.game.state.start('Boot');
+RatRace.state.start('Boot');
+RatRace.state.start('Game');
