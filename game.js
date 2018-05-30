@@ -44,6 +44,7 @@ function create() {
   ledge = platforms.create(-75, 350, 'ground')
   ledge.body.immovable = true
 
+
   player = game.add.sprite(750, game.world.height - 250, 'woof')
   enemy = game.add.sprite(50, game.world.height - 250, 'enemy')
 
@@ -95,7 +96,7 @@ function create() {
 
 function update() {
   player.body.velocity.x = 0
-  enemy.body.velocity.x = 0
+  enemy.body.velocity.x = 50
 
   game.physics.arcade.collide(player, platforms)
   game.physics.arcade.collide(bitcoins, platforms)
