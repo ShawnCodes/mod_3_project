@@ -51,15 +51,9 @@ function create() {
   ledge = platforms.create(x1, y1, 'ground')
   ledge.body.immovable = true
 
-<<<<<<< HEAD
-
-  player = game.add.sprite(750, game.world.height - 250, 'woof')
-  enemy = game.add.sprite(50, game.world.height - 250, 'enemy')
-=======
   player = game.add.sprite(50, game.world.height - 250, 'woof')
   enemy = game.add.sprite(750, game.world.height - 250, 'enemy')
-  enemie = game.add.sprite(x1, y1, 'enemy')
->>>>>>> c87d8134ab55c7b6516ff46a7a4ffbea35ae0c49
+  enemies = game.add.sprite(x1, y1, 'enemy')
 
   game.physics.arcade.enable(player)
   game.physics.arcade.enable(enemy)
@@ -93,10 +87,10 @@ function create() {
   }
 
   for (var i = 0; i < 3; i++) {
-    let en1 = enemies.create(i * 50, 0, 'enemy')
+    let enemy = enemies.create(i * 50, 0, 'enemy')
 
-    en1.body.gravity.y = 1000
-    en1.body.bounce.y = 0.3 + Math.random() * 0.2
+    enemy.body.gravity.y = 1000
+    enemy.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
   scoreText = game.add.text(16, 16, '', {
@@ -110,11 +104,7 @@ function create() {
 
 function update() {
   player.body.velocity.x = 0
-<<<<<<< HEAD
-  enemy.body.velocity.x = 50
-=======
   enemy.body.velocity.x = -50
->>>>>>> c87d8134ab55c7b6516ff46a7a4ffbea35ae0c49
 
   game.physics.arcade.collide(player, platforms)
   game.physics.arcade.collide(bitcoins, platforms)
