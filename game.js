@@ -11,16 +11,8 @@ let bitcoins
 let cursors
 let player
 let pigeons
-<<<<<<< HEAD
-
-//test code
-
-function preload () {
-  // Load & Define our game assets
-=======
 let enemies
 function preload() {
->>>>>>> 15c45b380b02ce004d062f24faaca399f1475e4f
   game.load.image('city_background', 'assets/city_background.png')
   game.load.image('ground', 'assets/platform.png')
   game.load.image('bitcoin', 'assets/bitcoin.png')
@@ -84,7 +76,7 @@ function create() {
     pigeon.body.gravity.y = 1000
     pigeon.body.bounce.y = 0.3 + Math.random() * 0.2
   }
-  for(var i = 0; i < 10; i++){
+  for(var i = 0; i < 1; i++){
     let enemy = enemies.create(game.world.randomX, game.world.randomY, 'enemy')
   }
 
