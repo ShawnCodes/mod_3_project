@@ -7,13 +7,33 @@ let player
 let enemy
 // let enemies
 let overlay = document.getElementById("overlay");
+let gameHeader = document.createElement("h1")
+let newUserButton = document.createElement("button");
+let existingUserButton = document.createElement("button");
+let findOverlay = document.getElementById("overlay")
+gameHeader.innerText = "RAT RACE"
+newUserButton.innerText = "New User"
+existingUserButton.innerText = "Existing User"
+newUserButton.addEventListener('click', function(e) {
+  prompt("Name")
+  start();
+});
+existingUserButton.addEventListener('click', function(e){
+  prompt("You are being queried")
+  start();
+})
 
+startScreen();
 
-start();
+function startScreen(){
+  overlay.appendChild(gameHeader)
+  overlay.appendChild(newUserButton)
+  overlay.appendChild(existingUserButton)
+  overlay.style.display;
+}
 
 function start() {
-  overlay.addEventListener('click', function(e) {
-    overlay.style.display = "none";
+  findOverlay.remove()
     const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
       preload: preload,
       create: create,
@@ -154,8 +174,9 @@ function start() {
       // alert('You suck')
       score -= 10
       scoreText.text = 'Score: ' + score
-      const div = document.getElementById('overlay')
+      const div = document.createElement('div')
       const h2 = document.createElement('h2')
+      div.id = "overlay"
       h2.innerText = "Game Over"
       const para = document.createElement('p')
       para.innerText = `Your score is ${score}
@@ -163,6 +184,7 @@ function start() {
       const canvas = document.querySelector('canvas')
       score = 0
       canvas.remove()
+      document.body.append(div)
       div.append(h2)
       div.append(para)
       div.removeAttribute('style')
@@ -170,12 +192,18 @@ function start() {
         while (div.hasChildNodes()) {
           div.removeChild(div.lastChild);
         }
+        start();
       })
     }
 
-  });
+    // function fillInEndGameInfo(){
+    //   return `
+    //   <h3>End of game</h3>
+    //   <div>Hi Score</div>
+    //   `
+    // }
 
-}
+  };
 
 
 // document.querySelector('canvas')
