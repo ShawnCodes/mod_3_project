@@ -4,7 +4,9 @@ let platforms
 let bitcoins
 let cursors
 let player
+let playerObj
 let enemy
+let getUsername
 // let enemies
 let overlay = document.getElementById("overlay");
 let gameHeader = document.createElement("h1")
@@ -14,12 +16,35 @@ let findOverlay = document.getElementById("overlay")
 gameHeader.innerText = "RAT RACE"
 newUserButton.innerText = "New User"
 existingUserButton.innerText = "Existing User"
+function post(body) {
+  const config = {
+    method:'POST',
+    headers:{'Content-type':'application/json'},
+    body:JSON.stringify(body)
+  }
+ fetch('http://localhost:3000/api/v1/players',config).then(r=>r.json()).then(data=>{
+   playerObj = data
+ })
+}
+
+function scorePost(body) {
+  const config = {
+    method:'POST',
+    headers:{'Content-type':'application/json'},
+    body:JSON.stringify(body)
+  }
+ fetch('http://localhost:3000/api/v1/scores',config).then(r=>r.json()).then(data=>console.log(data))
+}
+
 newUserButton.addEventListener('click', function(e) {
-  prompt("Name")
+  getUsername = prompt("Please enter your username:")
+
+  post({players: {username: getUsername}})
   start();
+
 });
 existingUserButton.addEventListener('click', function(e){
-  prompt("You are being queried")
+  prompt("Username:")
   start();
 })
 
@@ -44,7 +69,8 @@ function start() {
 
     function preload() {
       game.load.image('city_background', 'assets/city_background.png')
-      game.load.image('ground', 'assets/platform.png')
+      game.load.image('ledge', 'assets/ledge.png')
+      game.load.image('ground', 'assets/ground.png')
       game.load.image('bitcoin', 'assets/bitcoin.png')
       game.load.spritesheet('enemy', 'assets/pigeon.png', 32, 32)
       game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
@@ -64,11 +90,36 @@ function start() {
       ground.body.immovable = true
 
       // ledges create
-      let ledge = platforms.create(100, 450, 'ground')
-      ledge.body.immovable = true
+      let x = 100
+      let y = 150
+      for (var i = 0; i < 5; i++) {
+        let leftLedge = platforms.create(0, x, 'ledge')
+        leftEnemy = game.add.sprite(0, x - 25, 'enemy')
+        game.physics.arcade.enable(leftEnemy)
+        leftEnemy.body.bounce.y = 0.5
+        leftEnemy.body.gravity.y = 800
+        leftEnemy.body.velocity.x = -50
+        leftEnemy.body.collideWorldBounds = true
+        leftEnemy.animations.add('left', [10, 11, 12], 10, true)
+        leftEnemy.animations.add('right', [3, 4, 5], 10, true)
+        let rightLedge = platforms.create((game.width)- (300), y, 'ledge')
+        rightEnemy = game.add.sprite(700, x - 50, 'enemy')
+        game.physics.arcade.enable(rightEnemy)
+        rightEnemy.body.bounce.y = 0.5
+        rightEnemy.body.gravity.y = 800
+        rightEnemy.body.velocity.x = -50
+        rightEnemy.body.collideWorldBounds = true
+        rightEnemy.animations.add('left', [10, 11, 12], 10, true)
+        rightEnemy.animations.add('right', [3, 4, 5], 10, true)
+        leftLedge.body.immovable = true
+        rightLedge.body.immovable = true
+      }
 
-      ledge = platforms.create(-75, 150, 'ground')
-      ledge.body.immovable = true
+      // let ledge = platforms.create(100, 450, 'ledge')
+      // ledge.body.immovable = true
+      //
+      // ledge = platforms.create(-75, 150, 'ledge')
+      // ledge.body.immovable = true
 
       // player create
       player = game.add.sprite(50, game.world.height - 250, 'woof')
@@ -85,9 +136,10 @@ function start() {
       game.physics.arcade.enable(enemy)
       enemy.body.bounce.y = 0.5
       enemy.body.gravity.y = 800
+      enemy.body.velocity.x = -50
       enemy.body.collideWorldBounds = true
       enemy.animations.add('left', [10, 11, 12], 10, true)
-      enemy.animations.add('right', [3, 4, 5], 15, true)
+      enemy.animations.add('right', [3, 4, 5], 10, true)
 
 
       // bitcoin create
@@ -122,7 +174,7 @@ function start() {
       game.physics.arcade.overlap(player, enemy, collectPigeon, null, this)
 
       // enemy update
-      enemy.body.velocity.x = -50
+      // enemy.body.velocity.x = -50
       game.physics.arcade.collide(enemy, platforms)
 
       // bitcoin update
@@ -148,16 +200,23 @@ function start() {
       }
       if (score === 120) {
         alert('You collected all of the bitcoin!')
-        score = 0
+        endGame()
       }
-      if (enemy.body.x > (game.width/2)+1) {
-        enemy.body.velocity.x = -50
-        enemy.animations.play('left')
+
+      if ((Math.floor(enemy.body.x) < 390) && enemy.body.velocity.x === -50) {
+        enemy.body.velocity.x = (50)
+        // enemy.animations.play('right')
+        console.log(Math.floor(enemy.body.x))
       }
-      else if (enemy.body.x < game.width/2) {
-        enemy.body.velocity.x = 50
-        enemy.animations.play('right')
+      if ((Math.floor(enemy.body.x) > 700) && enemy.body.velocity.x === 50) {
+        enemy.body.velocity.x = (-50)
+        // enemy.animations.play('right')
+        console.log(Math.floor(enemy.body.x))
       }
+
+      //face based on velocity
+      enemy.body.velocity.x > 0 ? enemy.animations.play('right') : enemy.animations.play('left')
+
     }
 
 
@@ -171,9 +230,13 @@ function start() {
 
     function collectPigeon(player, enemy) {
       player.kill()
-      // alert('You suck')
       score -= 10
       scoreText.text = 'Score: ' + score
+      endGame()
+    }
+
+    function endGame(){
+      scorePost({scores: {points: score, player_id: playerObj.id}})
       const div = document.createElement('div')
       const h2 = document.createElement('h2')
       div.id = "overlay"
@@ -195,8 +258,6 @@ function start() {
         start();
       })
     }
-
-    // function fillInEndGameInfo(){
     //   return `
     //   <h3>End of game</h3>
     //   <div>Hi Score</div>
