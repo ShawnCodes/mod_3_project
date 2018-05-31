@@ -130,11 +130,11 @@ function start() {
         alert('You collected all of the bitcoin!')
         score = 0
       }
-      if (score == 0) {
+      if (enemy.body.x > (game.width/2)+1) {
         enemy.body.velocity.x = -50
         enemy.animations.play('left')
       }
-      else if (score > 0) {
+      else if (enemy.body.x < game.width/2) {
         enemy.body.velocity.x = 50
         enemy.animations.play('right')
       }
@@ -154,7 +154,6 @@ function start() {
       alert('You suck')
       score -= 10
       scoreText.text = 'Score: ' + score
-      debugger
       let endScreen = document.getElementById("overlay")
       let bod = document.getElementById('id')
       endScreen.innerHTML = fillInEndGameInfo()
