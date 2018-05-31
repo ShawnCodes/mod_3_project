@@ -69,7 +69,8 @@ function start() {
 
     function preload() {
       game.load.image('city_background', 'assets/city_background.png')
-      game.load.image('ground', 'assets/ledge.png')
+      game.load.image('ledge', 'assets/ledge.png')
+      game.load.image('ground', 'assets/ground.png')
       game.load.image('bitcoin', 'assets/bitcoin.png')
       game.load.spritesheet('enemy', 'assets/pigeon.png', 32, 32)
       game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
@@ -89,11 +90,36 @@ function start() {
       ground.body.immovable = true
 
       // ledges create
-      let ledge = platforms.create(100, 450, 'ground')
-      ledge.body.immovable = true
+      let x = 100
+      let y = 150
+      for (var i = 0; i < 5; i++) {
+        let leftLedge = platforms.create(0, x, 'ledge')
+        leftEnemy = game.add.sprite(0, x - 25, 'enemy')
+        game.physics.arcade.enable(leftEnemy)
+        leftEnemy.body.bounce.y = 0.5
+        leftEnemy.body.gravity.y = 800
+        leftEnemy.body.velocity.x = -50
+        leftEnemy.body.collideWorldBounds = true
+        leftEnemy.animations.add('left', [10, 11, 12], 10, true)
+        leftEnemy.animations.add('right', [3, 4, 5], 10, true)
+        let rightLedge = platforms.create((game.width)- (300), y, 'ledge')
+        rightEnemy = game.add.sprite(700, x - 50, 'enemy')
+        game.physics.arcade.enable(rightEnemy)
+        rightEnemy.body.bounce.y = 0.5
+        rightEnemy.body.gravity.y = 800
+        rightEnemy.body.velocity.x = -50
+        rightEnemy.body.collideWorldBounds = true
+        rightEnemy.animations.add('left', [10, 11, 12], 10, true)
+        rightEnemy.animations.add('right', [3, 4, 5], 10, true)
+        leftLedge.body.immovable = true
+        rightLedge.body.immovable = true
+      }
 
-      ledge = platforms.create(-75, 150, 'ground')
-      ledge.body.immovable = true
+      // let ledge = platforms.create(100, 450, 'ledge')
+      // ledge.body.immovable = true
+      //
+      // ledge = platforms.create(-75, 150, 'ledge')
+      // ledge.body.immovable = true
 
       // player create
       player = game.add.sprite(50, game.world.height - 250, 'woof')
