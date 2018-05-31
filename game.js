@@ -6,13 +6,19 @@ let cursors
 let player
 let enemy
 let enemies
+let overlay = document.getElementById("overlay");
 
 
-const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-  preload: preload,
-  create: create,
-  update: update
-})
+start();
+function start() {
+  window.addEventListener('click', function (e) {
+    overlay.style.display="none";
+
+  const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+    preload: preload,
+    create: create,
+    update: update
+  })
 
 
 
@@ -50,7 +56,7 @@ function create() {
 
   player = game.add.sprite(50, game.world.height - 250, 'woof')
   enemy = game.add.sprite(750, game.world.height - 250, 'enemy')
-  enemie = game.add.sprite(x1, y1, 'enemy')
+  enemies = game.add.sprite(x1, y1, 'enemy')
 
   game.physics.arcade.enable(player)
   game.physics.arcade.enable(enemy)
@@ -83,11 +89,11 @@ function create() {
     bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
-  for (var i = 0; i < 3; i++) {
-    let en1 = enemies.create(i * 50, 0, 'enemy')
+  for (var i = 0; i < 30; i++) {
+    let enemy = enemies.create(i * 50, 0, 'enemy')
 
-    en1.body.gravity.y = 1000
-    en1.body.bounce.y = 0.3 + Math.random() * 0.2
+    enemy.body.gravity.y = 1000
+    enemy.body.bounce.y = 0.3 + Math.random() * 0.2
   }
 
   scoreText = game.add.text(16, 16, '', {
@@ -149,4 +155,8 @@ function collectPigeon(player, enemy) {
    alert('You suck')
   score -= 10
   scoreText.text = 'Score: ' + score
+}
+
+});
+
 }
