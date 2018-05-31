@@ -28,7 +28,6 @@ function post(body) {
 }
 
 function scorePost(body) {
-  debugger
   const config = {
     method:'POST',
     headers:{'Content-type':'application/json'},
@@ -45,7 +44,7 @@ newUserButton.addEventListener('click', function(e) {
 
 });
 existingUserButton.addEventListener('click', function(e){
-  prompt("You are being queried")
+  prompt("Username:")
   start();
 })
 
@@ -70,7 +69,7 @@ function start() {
 
     function preload() {
       game.load.image('city_background', 'assets/city_background.png')
-      game.load.image('ground', 'assets/platform.png')
+      game.load.image('ground', 'assets/ledge.png')
       game.load.image('bitcoin', 'assets/bitcoin.png')
       game.load.spritesheet('enemy', 'assets/pigeon.png', 32, 32)
       game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
@@ -175,7 +174,7 @@ function start() {
       }
       if (score === 120) {
         alert('You collected all of the bitcoin!')
-        score = 0
+        endGame()
       }
 
       if ((Math.floor(enemy.body.x) < 390) && enemy.body.velocity.x === -50) {
@@ -188,12 +187,6 @@ function start() {
         // enemy.animations.play('right')
         console.log(Math.floor(enemy.body.x))
       }
-
-      // else if {
-      //   // enemy.body.velocity.x = -50
-      //   // enemy.animations.play('left')
-      //   console.log(Math.floor(enemy.body.x))
-      // }
 
       //face based on velocity
       enemy.body.velocity.x > 0 ? enemy.animations.play('right') : enemy.animations.play('left')
@@ -213,6 +206,10 @@ function start() {
       player.kill()
       score -= 10
       scoreText.text = 'Score: ' + score
+      endGame()
+    }
+
+    function endGame(){
       scorePost({scores: {points: score, player_id: playerObj.id}})
       const div = document.createElement('div')
       const h2 = document.createElement('h2')
@@ -235,8 +232,6 @@ function start() {
         start();
       })
     }
-
-    // function fillInEndGameInfo(){
     //   return `
     //   <h3>End of game</h3>
     //   <div>Hi Score</div>
