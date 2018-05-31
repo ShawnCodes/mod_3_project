@@ -151,20 +151,27 @@ function start() {
 
     function collectPigeon(player, enemy) {
       player.kill()
-      alert('You suck')
+      // alert('You suck')
       score -= 10
       scoreText.text = 'Score: ' + score
-      let endScreen = document.getElementById("overlay")
-      let bod = document.getElementById('id')
-      endScreen.innerHTML = fillInEndGameInfo()
+      const div = document.getElementById('overlay')
+      const h2 = document.createElement('h2')
+      h2.innerText = "Game Over"
+      const para = document.createElement('p')
+      para.innerText = `Your score is ${score}
+      Click to restart!`
+      const canvas = document.querySelector('canvas')
+      score = 0
+      canvas.remove()
+      div.append(h2)
+      div.append(para)
+      div.removeAttribute('style')
+      div.addEventListener('click', function(){
+        while (div.hasChildNodes()) {
+          div.removeChild(div.lastChild);
+        }
+      })
     }
-
-    // function fillInEndGameInfo(){
-    //   return `
-    //   <h3>End of game</h3>
-    //   <div>Hi Score</div>
-    //   `
-    // }
 
   });
 
