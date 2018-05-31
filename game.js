@@ -4,7 +4,9 @@ let platforms
 let bitcoins
 let cursors
 let player
+let playerObj
 let enemy
+let getUsername
 // let enemies
 let overlay = document.getElementById("overlay");
 let gameHeader = document.createElement("h1")
@@ -14,9 +16,33 @@ let findOverlay = document.getElementById("overlay")
 gameHeader.innerText = "RAT RACE"
 newUserButton.innerText = "New User"
 existingUserButton.innerText = "Existing User"
+function post(body) {
+  const config = {
+    method:'POST',
+    headers:{'Content-type':'application/json'},
+    body:JSON.stringify(body)
+  }
+ fetch('http://localhost:3000/api/v1/players',config).then(r=>r.json()).then(data=>{
+   playerObj = data
+ })
+}
+
+function scorePost(body) {
+  debugger
+  const config = {
+    method:'POST',
+    headers:{'Content-type':'application/json'},
+    body:JSON.stringify(body)
+  }
+ fetch('http://localhost:3000/api/v1/scores',config).then(r=>r.json()).then(data=>console.log(data))
+}
+
 newUserButton.addEventListener('click', function(e) {
-  prompt("Name")
+  getUsername = prompt("Please enter your username:")
+
+  post({players: {username: getUsername}})
   start();
+
 });
 existingUserButton.addEventListener('click', function(e){
   prompt("You are being queried")
@@ -85,9 +111,10 @@ function start() {
       game.physics.arcade.enable(enemy)
       enemy.body.bounce.y = 0.5
       enemy.body.gravity.y = 800
+      enemy.body.velocity.x = -50
       enemy.body.collideWorldBounds = true
       enemy.animations.add('left', [10, 11, 12], 10, true)
-      enemy.animations.add('right', [3, 4, 5], 15, true)
+      enemy.animations.add('right', [3, 4, 5], 10, true)
 
 
       // bitcoin create
@@ -122,7 +149,7 @@ function start() {
       game.physics.arcade.overlap(player, enemy, collectPigeon, null, this)
 
       // enemy update
-      enemy.body.velocity.x = -50
+      // enemy.body.velocity.x = -50
       game.physics.arcade.collide(enemy, platforms)
 
       // bitcoin update
@@ -150,14 +177,27 @@ function start() {
         alert('You collected all of the bitcoin!')
         score = 0
       }
-      if (enemy.body.x > (game.width/2)+1) {
-        enemy.body.velocity.x = -50
-        enemy.animations.play('left')
+
+      if ((Math.floor(enemy.body.x) < 390) && enemy.body.velocity.x === -50) {
+        enemy.body.velocity.x = (50)
+        // enemy.animations.play('right')
+        console.log(Math.floor(enemy.body.x))
       }
-      else if (enemy.body.x < game.width/2) {
-        enemy.body.velocity.x = 50
-        enemy.animations.play('right')
+      if ((Math.floor(enemy.body.x) > 700) && enemy.body.velocity.x === 50) {
+        enemy.body.velocity.x = (-50)
+        // enemy.animations.play('right')
+        console.log(Math.floor(enemy.body.x))
       }
+
+      // else if {
+      //   // enemy.body.velocity.x = -50
+      //   // enemy.animations.play('left')
+      //   console.log(Math.floor(enemy.body.x))
+      // }
+
+      //face based on velocity
+      enemy.body.velocity.x > 0 ? enemy.animations.play('right') : enemy.animations.play('left')
+
     }
 
 
@@ -171,9 +211,9 @@ function start() {
 
     function collectPigeon(player, enemy) {
       player.kill()
-      // alert('You suck')
       score -= 10
       scoreText.text = 'Score: ' + score
+      scorePost({scores: {points: score, player_id: playerObj.id}})
       const div = document.createElement('div')
       const h2 = document.createElement('h2')
       div.id = "overlay"
