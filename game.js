@@ -7,93 +7,38 @@ let player
 let enemy
 // let enemies
 let overlay = document.getElementById("overlay");
+let gameHeader = document.createElement("h1")
+let newUserButton = document.createElement("button");
+let existingUserButton = document.createElement("button");
+let findOverlay = document.getElementById("overlay")
+gameHeader.innerText = "RAT RACE"
+newUserButton.innerText = "New User"
+existingUserButton.innerText = "Existing User"
+newUserButton.addEventListener('click', function(e) {
+  prompt("Name")
+  start();
+});
+existingUserButton.addEventListener('click', function(e){
+  prompt("You are being queried")
+  start();
+})
 
+startScreen();
 
-start();
-
-function start() {
-<<<<<<< HEAD
-  window.addEventListener('click', function(e) {
-        overlay.style.display = "none";
-        const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-          preload: preload,
-          create: create,
-          update: update
-        })
-
-
-
-function preload() {
-  game.load.image('city_background', 'assets/city_background.png')
-  game.load.image('ground', 'assets/platform.png')
-  game.load.image('bitcoin', 'assets/bitcoin.png')
-  game.load.spritesheet('enemy', 'assets/pigeon.png', 32, 32)
-  game.load.spritesheet('woof', 'assets/woof.png', 32, 32)
-  game.load.spritesheet('enemy', 'assets/YeOldyNecroGuy.png', 32, 32)
-
-
+function startScreen(){
+  overlay.appendChild(gameHeader)
+  overlay.appendChild(newUserButton)
+  overlay.appendChild(existingUserButton)
+  overlay.style.display;
 }
 
-function create() {
-  // system create
-  game.physics.startSystem(Phaser.Physics.ARCADE)
-  game.add.sprite(0, 0, 'city_background')
-
-  // platform create
-  platforms = game.add.group()
-  platforms.enableBody = true
-
-  let ground = platforms.create(0, game.world.height - 64, 'ground')
-  ground.scale.setTo(2, 2)
-  ground.body.immovable = true
-
-  // ledges create
-  let ledge = platforms.create(400, 450, 'ground')
-  ledge.body.immovable = true
-
-  ledge = platforms.create(-75, 450, 'ground')
-  ledge.body.immovable = true
-
-  // player create
-  player = game.add.sprite(50, game.world.height - 250, 'woof')
-  game.physics.arcade.enable(player)
-  player.body.bounce.y = 0.5
-  player.body.gravity.y = 800
-  player.body.collideWorldBounds = true
-  player.animations.add('left', [0, 1], 10, true)
-  player.animations.add('right', [2, 3], 10, true)
-
-
-  // enemies create
-  enemy = game.add.sprite(750, game.world.height - 250, 'enemy')
-  game.physics.arcade.enable(enemy)
-  enemy.body.bounce.y = 0.5
-  enemy.body.gravity.y = 800
-  enemy.body.collideWorldBounds = true
-  enemy.animations.add('left', [10, 11, 12], 10, true)
-  enemy.animations.add('right', [3, 4, 5], 15, true)
-
-
-  // bitcoin create
-  bitcoins = game.add.group()
-  bitcoins.enableBody = true
-
-
-  // randomize bitcoin
-  for (var i = 0; i < 12; i++) {
-    let bitcoin = bitcoins.create(i * 70, 0, 'bitcoin')
-    bitcoin.body.gravity.y = 1000
-    bitcoin.body.bounce.y = 0.3 + Math.random() * 0.2
-  }
-=======
-  overlay.addEventListener('click', function(e) {
-    overlay.style.display = "none";
+function start() {
+  findOverlay.remove()
     const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
       preload: preload,
       create: create,
-      update: update
-    })
-
+      update: update,
+    });
 
 
     function preload() {
@@ -241,10 +186,7 @@ function create() {
     //   `
     // }
 
-  });
->>>>>>> b2ee7009a5cd6c776ab777ef667f36ecb798bc10
-
-}
+  };
 
 
 // document.querySelector('canvas')
