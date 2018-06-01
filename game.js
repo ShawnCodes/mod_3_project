@@ -238,9 +238,9 @@ function start() {
     function endGame(){
       scorePost({scores: {points: score, player_id: playerObj.id}})
       const div = document.createElement('div')
-      const h2 = document.createElement('h2')
+      const h1 = document.createElement('h1')
       div.id = "overlay"
-      h2.innerText = "Game Over"
+      h1.innerText = "Game Over"
       const para = document.createElement('p')
       para.innerText = `Your score is ${score}
       Click to restart!`
@@ -248,7 +248,7 @@ function start() {
       score = 0
       canvas.remove()
       document.body.append(div)
-      div.append(h2)
+      div.append(h1)
       div.append(para)
       div.removeAttribute('style')
       div.addEventListener('click', function(){
