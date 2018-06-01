@@ -30,7 +30,8 @@ function getHighScores(){
   let scores = {}
   fetch('http://localhost:3000/api/v1/scores')
   .then(res => res.json())
-  .then(json => json.forEach(function(data){ data.points}))
+  .then(json => console.log(json.sort(function(a, b){
+    return a.points - b.points})))
 }
 
 //creating a new user
