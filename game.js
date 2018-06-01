@@ -15,7 +15,9 @@ let getUsername
 let overlay = document.getElementById("overlay");
 let gameHeader = document.createElement("h1")
 let newUserButton = document.createElement("button");
+newUserButton.setAttribute('id','button')
 let existingUserButton = document.createElement("button");
+existingUserButton.setAttribute('id', 'button')
 let pigeonDiv = document.createElement("div")
 let pigeonAnimation = document.createElement("img");
 let findOverlay = document.getElementById("overlay")
