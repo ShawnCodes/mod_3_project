@@ -75,6 +75,9 @@ function start() {
   })
 
   function preload() {
+    game.load.audio('bgmusic1', 'assets/sounds.mp3')
+    game.load.audio('over', 'assets/over.wav')
+    game.load.audio('collection', 'assets/collection.wav')
     game.load.image('city_background', 'assets/city_background.png')
     game.load.image('ledge', 'assets/ledge.png')
     game.load.image('ground', 'assets/ground.png')
@@ -87,6 +90,15 @@ function start() {
     // system create
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.add.sprite(0, 0, 'city_background')
+    bgmusic = game.sound.add("bgmusic1");
+    over = game.sound.add("over");
+    over.volume = 0.9;
+    collection = game.sound.add("collection");
+    collection.volume = 0.9;
+    bgmusic.volume = 0.3;
+    bgmusic.loop = true;
+    bgmusic.play();
+
     // platform create
     platforms = game.add.group()
     platforms.enableBody = true
@@ -237,7 +249,7 @@ function start() {
       player.animations.stop()
     }
     if (cursors.up.isDown && player.body.touching.down) {
-      player.body.velocity.y = -900
+      player.body.velocity.y = -500
     }
     if (score === 120) {
       alert('You collected all of the bitcoin!')
@@ -258,12 +270,14 @@ function start() {
   // scoring
   function collectBitcoin(player, bitcoin) {
     bitcoin.kill()
+    collection.play();
     score += 10
     scoreText.text = 'Score: ' + score
   }
 
   function collectPigeon(player) {
     player.kill()
+    over.play();
     score -= 10
     scoreText.text = 'Score: ' + score
     endGame()
