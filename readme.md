@@ -13,12 +13,15 @@ Constantly updating, but each pushed version is stable!
 **Built with**
 
 Javascript 
+
 Phaser
 
 **Installation**
 
 Fork this repo 
+
 npm Install 
+
 npm run start
 
 If you would like to be able to run this with populated high scores, please download the backend for this project as well.
