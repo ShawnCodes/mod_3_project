@@ -26,7 +26,7 @@ gameHeader.innerText = "RAT RACE"
 newUserButton.innerText = "New User"
 existingUserButton.innerText = "Existing User"
 pigeonAnimation.class = "pig1"
-pigeonAnimation.src = "/assets/pigeon_moving.gif"
+pigeonAnimation.src = "/assets/dogs.gif"
 //get highscores from server
 function getHighScores(){
   let scores = {}
@@ -125,7 +125,7 @@ function start() {
     ground.scale.setTo(2, 2)
     ground.body.immovable = true
 
-
+    // Set infinte ledges(commented out for demo purposes)
     // ledges create
     // let x = 100
     // let y = 150
@@ -151,6 +151,8 @@ function start() {
     //   leftLedge.body.immovable = true
     //   rightLedge.body.immovable = true
     // }
+
+
     let ledge = platforms.create(0, 450, 'ledge')
     ledge.body.immovable = true
 
