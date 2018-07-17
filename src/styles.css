@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Monoton');
+@import url('https://fonts.googleapis.com/css?family=Glegoo');
+
+
 
 #overlay {
 position: fixed;
@@ -12,13 +16,24 @@ background-color: transparent;
 padding: 30px;
 }
 
-#h2 {
+h2 {
   text-align: center;
+  color: black;
+  font-family: 'Monoton', cursive;
+}
+
+h1 {
+  color: black;
+  font-family: 'Monoton', cursive;
+}
+
+p {
+  font-family: 'Glegoo', serif;
+  color: black;
 }
 
 #button {
     color: black;
-    /* padding: 15px 32px; */
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -28,6 +43,7 @@ padding: 30px;
     border: 1px solid;
     padding: 10px;
     box-shadow: 5px 10px 8px 10px #888888;
+    font-family: 'Glegoo', serif;
 }
 
 
