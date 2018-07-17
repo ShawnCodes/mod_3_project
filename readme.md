@@ -26,7 +26,8 @@ If you would like to be able to run this with populated high scores, please down
 
 **Demo**
 
-![Imgur](https://i.imgur.com/AwLR0P5.gifv)
+
+![](https://i.imgur.com/AwLR0P5.gifv)
 
 
 
