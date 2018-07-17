@@ -25,11 +25,7 @@ open game.js on a live server (Must be live)
 If you would like to be able to run this with populated high scores, please download the backend for this project as well.
 
 **Demo**
-
-
-![](https://i.imgur.com/AwLR0P5.gifv)
-
-
+<blockquote class="imgur-embed-pub" lang="en" data-id="AwLR0P5"><a href="//imgur.com/AwLR0P5">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 **Contribute**
 
