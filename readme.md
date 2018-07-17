@@ -24,6 +24,12 @@ open game.js on a live server (Must be live)
 
 If you would like to be able to run this with populated high scores, please download the backend for this project as well.
 
+**Demo**
+
+![RatRace](https://imgur.com/a/mePnxLb)
+
+
+
 **Contribute**
 
 Send a PR for any suggested changes or additional widgets
