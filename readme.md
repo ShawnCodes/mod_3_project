@@ -26,7 +26,7 @@ If you would like to be able to run this with populated high scores, please down
 
 **Demo**
 
-![RatRace](https://imgur.com/a/mePnxLb)
+[Imgur](https://i.imgur.com/AwLR0P5.gifv)
 
 
 
